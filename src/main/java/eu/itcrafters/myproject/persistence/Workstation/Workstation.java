@@ -1,6 +1,9 @@
-package eu.itcrafters.myproject.persistence;
+package eu.itcrafters.myproject.persistence.Workstation;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -12,26 +15,25 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "EMPLOYEE")
-public class Employee {
+@Table(name = "WORKSTATION")
+public class Workstation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
     @Size(max = 20)
     @NotNull
-    @Column(name = "EMPLOYEE_CODE", nullable = false, length = 20)
-    private String employeeCode;
+    @Column(name = "CODE", nullable = false, length = 20)
+    private String code;
 
-    @Size(max = 120)
+    @Size(max = 80)
     @NotNull
-    @Column(name = "FULL_NAME", nullable = false, length = 120)
-    private String fullName;
+    @Column(name = "NAME", nullable = false, length = 80)
+    private String name;
 
-    @Size(max = 120)
-    @Column(name = "EMAIL", length = 120)
-    private String email;
+    @Size(max = 80)
+    @Column(name = "AREA", length = 80)
+    private String area;
 
     @NotNull
     @ColumnDefault("TRUE")

@@ -1,5 +1,7 @@
-package eu.itcrafters.myproject.persistence;
+package eu.itcrafters.myproject.persistence.Task;
 
+import eu.itcrafters.myproject.persistence.Employee.Employee;
+import eu.itcrafters.myproject.persistence.Workstation.Workstation;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
