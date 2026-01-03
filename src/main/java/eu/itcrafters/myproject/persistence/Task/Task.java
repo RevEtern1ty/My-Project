@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Table(name = "TASK")
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -31,8 +32,8 @@ public class Task {
     @Column(name = "TITLE", nullable = false, length = 200)
     private String title;
 
-    @Size(max = 2000)
-    @Column(name = "DESCRIPTION", length = 2000)
+    @Size(max = 200)
+    @Column(name = "DESCRIPTION", length = 200)
     private String description;
 
     @Size(max = 20)
@@ -57,12 +58,12 @@ public class Task {
     private Workstation workstation;
 
     @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @ColumnDefault("")
     @Column(name = "CREATED_AT", nullable = false)
     private Instant createdAt;
 
     @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @ColumnDefault("")
     @Column(name = "UPDATED_AT", nullable = false)
     private Instant updatedAt;
 
