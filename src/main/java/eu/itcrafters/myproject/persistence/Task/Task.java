@@ -58,12 +58,10 @@ public class Task {
     private Workstation workstation;
 
     @NotNull
-    @ColumnDefault("")
     @Column(name = "CREATED_AT", nullable = false)
     private Instant createdAt;
 
     @NotNull
-    @ColumnDefault("")
     @Column(name = "UPDATED_AT", nullable = false)
     private Instant updatedAt;
 
