@@ -20,7 +20,7 @@ public class EmployeeDto implements Serializable {
     private Long employeeId;
     @NotNull
     @Size(max = 20)
-    private String сode;
+    private String code;
     @NotNull
     @Size(max = 120)
     private String name;
