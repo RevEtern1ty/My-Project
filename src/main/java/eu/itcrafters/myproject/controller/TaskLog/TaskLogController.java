@@ -1,7 +1,7 @@
 package eu.itcrafters.myproject.controller.TaskLog;
 
 
-import eu.itcrafters.myproject.service.TaskLogService;
+import eu.itcrafters.myproject.service.TaskLog.TaskLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

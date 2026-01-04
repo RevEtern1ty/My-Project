@@ -1,4 +1,4 @@
-package eu.itcrafters.myproject.service.employee;
+package eu.itcrafters.myproject.service.Employee;
 
 import eu.itcrafters.myproject.persistence.Employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;

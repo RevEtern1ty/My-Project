@@ -1,6 +1,6 @@
 package eu.itcrafters.myproject.persistence.Employee;
 
-import eu.itcrafters.myproject.controller.Employee.EmployeeDto;
+import eu.itcrafters.myproject.controller.Employee.dto.EmployeeDto;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)

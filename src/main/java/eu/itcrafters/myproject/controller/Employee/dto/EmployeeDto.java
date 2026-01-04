@@ -1,4 +1,4 @@
-package eu.itcrafters.myproject.controller.Employee;
+package eu.itcrafters.myproject.controller.Employee.dto;
 
 import eu.itcrafters.myproject.persistence.Employee.Employee;
 import jakarta.validation.constraints.NotNull;

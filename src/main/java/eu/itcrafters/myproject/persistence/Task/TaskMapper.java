@@ -1,6 +1,6 @@
 package eu.itcrafters.myproject.persistence.Task;
 
-import eu.itcrafters.myproject.controller.Task.TaskDto;
+import eu.itcrafters.myproject.controller.Task.dto.TaskDto;
 import org.mapstruct.*;
 
 import java.util.List;

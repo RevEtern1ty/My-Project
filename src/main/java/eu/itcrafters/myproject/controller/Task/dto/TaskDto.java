@@ -1,4 +1,4 @@
-package eu.itcrafters.myproject.controller.Task;
+package eu.itcrafters.myproject.controller.Task.dto;
 
 import eu.itcrafters.myproject.persistence.Task.Task;
 import jakarta.validation.constraints.NotNull;

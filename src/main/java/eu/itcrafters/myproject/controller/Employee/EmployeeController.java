@@ -1,7 +1,7 @@
 package eu.itcrafters.myproject.controller.Employee;
 
 
-import eu.itcrafters.myproject.service.employee.EmployeeService;
+import eu.itcrafters.myproject.service.Employee.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

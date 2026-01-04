@@ -1,4 +1,4 @@
-package eu.itcrafters.myproject.controller.TaskLog;
+package eu.itcrafters.myproject.controller.TaskLog.dto;
 
 import eu.itcrafters.myproject.persistence.TaskLog.TaskLog;
 import jakarta.validation.constraints.NotNull;

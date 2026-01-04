@@ -1,6 +1,6 @@
 package eu.itcrafters.myproject.persistence.TaskLog;
 
-import eu.itcrafters.myproject.controller.TaskLog.TaskLogDto;
+import eu.itcrafters.myproject.controller.TaskLog.dto.TaskLogDto;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)

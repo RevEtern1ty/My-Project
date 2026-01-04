@@ -1,4 +1,4 @@
-package eu.itcrafters.myproject.service;
+package eu.itcrafters.myproject.service.TaskLog;
 
 import eu.itcrafters.myproject.persistence.TaskLog.TaskLogMapper;
 import eu.itcrafters.myproject.persistence.TaskLog.TaskLogRepository;
