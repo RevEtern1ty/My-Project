@@ -18,7 +18,7 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @GetMapping ("/employees/all")
+    @GetMapping ("/all")
     public List<EmployeeDto> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
@@ -33,12 +33,12 @@ public class EmployeeController {
         return employeeService.createEmployee(request);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/update/{id}")
     public EmployeeDto updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeUpdateRequest request){
         return employeeService.updateEmployee(id, request);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteEmployee(@PathVariable Long id){
         employeeService.deleteEmployee(id);
     }

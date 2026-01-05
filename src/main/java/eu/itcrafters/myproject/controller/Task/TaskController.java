@@ -22,7 +22,7 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-    @GetMapping("/gettask/{id}")
+    @GetMapping("/{id}")
     public TaskDto getTask(@PathVariable Long id){
         return taskService.getTask(id);
     }
@@ -37,5 +37,9 @@ public class TaskController {
         return taskService.updateTask(id,request);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteTask(@PathVariable Long id){
+        taskService.deleteTask(id);
+    }
 
 }

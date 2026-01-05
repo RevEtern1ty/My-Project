@@ -80,6 +80,14 @@ public class TaskService {
         return taskMapper.toDto(saved);
     }
 
+    @Transactional
+    public void deleteTask (Long id){
+        if (!taskRepository.existsById(id)){
+            throw new IllegalArgumentException("Task not found "+id);
+        }
+        taskRepository.deleteById(id);
+    }
+
    // Helpers
     private Employee resolveEmployee(Long employeeId) {
         if (employeeId == null) {
@@ -88,7 +96,6 @@ public class TaskService {
         return employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + employeeId));
     }
-
     private Workstation resolveWorkstation(Long workstationId) {
         if (workstationId == null) {
             return null;
