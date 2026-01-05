@@ -1,10 +1,12 @@
 package eu.itcrafters.myproject.controller.Workstation.dto;
 
+import eu.itcrafters.myproject.persistence.TaskLog.TaskLog;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Value;
 
 import java.io.Serializable;
+
 
 @Value
 public class WorkstationDto implements Serializable {
