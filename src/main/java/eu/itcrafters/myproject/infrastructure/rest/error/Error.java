@@ -6,7 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Error {
-    SOME_ERROR_ENUM("Some error message");
-
-    private final String message;
+    DATA_NOT_FOUND,
+    FORBIDDEN,
+    VALIDATION_ERROR,
+    BAD_REQUEST,
+    INTERNAL_ERROR
 }
