@@ -2,9 +2,9 @@ package eu.itcrafters.myproject.controller.Employee.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class EmployeeCreateRequest {
     @NotBlank
     @Size(max = 20)

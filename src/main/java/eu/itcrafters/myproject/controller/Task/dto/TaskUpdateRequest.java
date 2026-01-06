@@ -1,12 +1,12 @@
 package eu.itcrafters.myproject.controller.Task.dto;
 
 import jakarta.validation.constraints.Size;
-import lombok.Value;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Value
+@Data
 public class TaskUpdateRequest implements Serializable {
 
     @Size(max = 200)
