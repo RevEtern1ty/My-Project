@@ -1,6 +1,7 @@
 package eu.itcrafters.myproject.infrastructure.rest;
 
 import eu.itcrafters.myproject.infrastructure.rest.error.ApiError;
+import eu.itcrafters.myproject.infrastructure.rest.exception.BadRequestException;
 import eu.itcrafters.myproject.infrastructure.rest.exception.DataNotFoundException;
 import eu.itcrafters.myproject.infrastructure.rest.exception.ForbiddenException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -76,4 +77,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiError> handleBadRequestException(BadRequestException exception, HttpServletRequest request) {
+
+        ApiError apiError = new ApiError();
+        apiError.setStatus(HttpStatus.BAD_REQUEST);
+        apiError.setMessage(exception.getMessage());
+        apiError.setPath(request.getRequestURI());
+
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
 }
+
