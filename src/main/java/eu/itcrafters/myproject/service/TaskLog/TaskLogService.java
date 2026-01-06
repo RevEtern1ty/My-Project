@@ -28,10 +28,14 @@ public class TaskLogService {
 
     @Transactional
     public List<TaskLogDto> getLogsByTaskId(Long taskId) {
+
+        // Fetch all TaskLog entities related to the given Task ID
         List<TaskLog> logs =taskLogRepository.findByTaskId(taskId);
 
+        // Prepare result list for DTOs
         List<TaskLogDto> result = new ArrayList<>();
 
+        // Convert each TaskLog entity to DTO manually
         for (TaskLog log : logs){
             result.add(taskLogMapper.toDto(log));
         }
@@ -40,6 +44,8 @@ public class TaskLogService {
 
     @Transactional
     public TaskLogDto createLog (TaskLogCreateRequest request){
+
+        // Load Task entity and fail if it does not exist
         Task task = taskRepository.findById(request.getTaskId())
                 .orElseThrow(() -> new IllegalArgumentException("Task not found "+request.getTaskId()));
 
@@ -47,6 +53,7 @@ public class TaskLogService {
         entity.setTask(task);
         entity.setCreatedAt(Instant.now());
 
+        // If creator employee ID is provided, resolve and assign relation
         if (request.getCreatedByEmployeeId() != null){
             Employee employee = employeeRepository.findById(request.getCreatedByEmployeeId())
                     .orElseThrow(() ->new IllegalArgumentException("Employee not found "+request.getCreatedByEmployeeId()));

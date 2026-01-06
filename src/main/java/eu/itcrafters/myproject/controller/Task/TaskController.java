@@ -27,7 +27,7 @@ public class TaskController {
         return taskService.getTask(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public TaskDto createTask(@Valid @RequestBody TaskCreateRequest request){
         return taskService.createTask(request);
     }
