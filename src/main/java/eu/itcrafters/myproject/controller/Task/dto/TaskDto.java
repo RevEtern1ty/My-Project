@@ -3,6 +3,7 @@ package eu.itcrafters.myproject.controller.Task.dto;
 import eu.itcrafters.myproject.persistence.Task.Task;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 /**
  * DTO for {@link Task}
  */
-@Value
+@Data
 public class TaskDto implements Serializable {
     Long id;
     @NotNull
