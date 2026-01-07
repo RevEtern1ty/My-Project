@@ -11,7 +11,8 @@ public enum ErrorCode {
     EMPLOYEE_EMAIL_EXISTS("Employee email already exists: {email}"),
 
     TASK_NOT_FOUND("Task not found: {id}"),
-    WORKSTATION_NOT_FOUND("Workstation not found: {id}");
+    WORKSTATION_NOT_FOUND("Workstation not found: {id}"),
+    WORKSTATION_CODE_EXISTS("Workstation code already exists: {code}");
 
     private final String template;
 
