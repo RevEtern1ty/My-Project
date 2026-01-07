@@ -3,6 +3,7 @@ package eu.itcrafters.myproject.controller.TaskLog.dto;
 import eu.itcrafters.myproject.persistence.TaskLog.TaskLog;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.time.Instant;
 /**
  * DTO for {@link TaskLog}
  */
-@Value
+@Data
 public class TaskLogDto implements Serializable {
     Long id;
     Long taskId;
