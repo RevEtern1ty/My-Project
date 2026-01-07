@@ -3,6 +3,9 @@ package eu.itcrafters.myproject.service.Task;
 import eu.itcrafters.myproject.controller.Task.dto.TaskCreateRequest;
 import eu.itcrafters.myproject.controller.Task.dto.TaskDto;
 import eu.itcrafters.myproject.controller.Task.dto.TaskUpdateRequest;
+import eu.itcrafters.myproject.infrastructure.rest.error.ErrorCode;
+import eu.itcrafters.myproject.infrastructure.rest.exception.BadRequestException;
+import eu.itcrafters.myproject.infrastructure.rest.exception.DataNotFoundException;
 import eu.itcrafters.myproject.persistence.Employee.Employee;
 import eu.itcrafters.myproject.persistence.Employee.EmployeeRepository;
 import eu.itcrafters.myproject.persistence.Task.Task;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,14 +34,22 @@ public class TaskService {
 
     @Transactional
     public List<TaskDto> getAllTasks(){
-        // Convert entity list to DTO list
-       return taskMapper.toDtoList(taskRepository.findAll());
+        // Fetch entities
+        List<Task> tasks = taskRepository.findAll();
+
+        // Convert entity list -> DTO list
+        List<TaskDto> result = new ArrayList<>();
+        for (Task task : tasks) {
+            result.add(taskMapper.toDto(task));
+        }
+        return result;
     }
 
     @Transactional
     public TaskDto getTask(Long id){
         Task task = taskRepository.findById(id)
-                .orElseThrow(() ->new IllegalArgumentException("Task not found "+id));
+                .orElseThrow(() -> new DataNotFoundException(
+                ErrorCode.TASK_NOT_FOUND.format("id", id)));
         return taskMapper.toDto(task);
     }
 
@@ -47,6 +59,7 @@ public class TaskService {
         // Map request -> entity
         Task task = taskMapper.toEntity(request);
 
+        // Resolve and set relations
         task.setEmployee(resolveEmployee(request.getEmployeeId()));
         task.setWorkstation(resolveWorkstation(request.getWorkstationId()));
 
@@ -61,7 +74,8 @@ public class TaskService {
     @Transactional
     public TaskDto updateTask (Long id, TaskUpdateRequest request){
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Task not found "+id));
+                .orElseThrow(() -> new DataNotFoundException(
+                        ErrorCode.TASK_NOT_FOUND.format("id", id)));
 
         // Patch simple fields
         taskMapper.updateEntity(request,task);
@@ -82,26 +96,30 @@ public class TaskService {
 
     @Transactional
     public void deleteTask (Long id){
-        if (!taskRepository.existsById(id)){
-            throw new IllegalArgumentException("Task not found "+id);
-        }
-        taskRepository.deleteById(id);
+        // Ensure task exists before delete
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException(
+                        ErrorCode.TASK_NOT_FOUND.format("id", id)));
+
+        taskRepository.delete(task);
     }
 
    // Helpers
     private Employee resolveEmployee(Long employeeId) {
         if (employeeId == null) {
-            return null;
+            throw new BadRequestException("employeeId is required");
         }
         return employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + employeeId));
+                .orElseThrow(() -> new DataNotFoundException(
+                        ErrorCode.EMPLOYEE_NOT_FOUND.format("id", employeeId)));
     }
     private Workstation resolveWorkstation(Long workstationId) {
         if (workstationId == null) {
-            return null;
+            throw new BadRequestException("workstationId is required");
         }
         return workstationRepository.findById(workstationId)
-                .orElseThrow(() -> new IllegalArgumentException("Workstation not found: " + workstationId));
+                .orElseThrow(() -> new DataNotFoundException(
+                        ErrorCode.WORKSTATION_NOT_FOUND.format("id", workstationId)));
     }
 
 
