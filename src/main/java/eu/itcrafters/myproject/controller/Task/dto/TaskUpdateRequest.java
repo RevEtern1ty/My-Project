@@ -1,5 +1,6 @@
 package eu.itcrafters.myproject.controller.Task.dto;
 
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -16,9 +17,11 @@ public class TaskUpdateRequest implements Serializable {
     String description;
 
     @Size(max = 20)
+    @Pattern(regexp = "^(TODO|IN_PROGRESS|DONE|CANCELLED)$")
     String status;
 
     @Size(max = 10)
+    @Pattern(regexp = "^(LOW|MEDIUM|HIGH)$")
     String priority;
 
     LocalDate dueDate;

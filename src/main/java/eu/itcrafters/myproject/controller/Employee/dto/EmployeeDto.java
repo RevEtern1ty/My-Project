@@ -1,6 +1,7 @@
 package eu.itcrafters.myproject.controller.Employee.dto;
 
 import eu.itcrafters.myproject.persistence.Employee.Employee;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -24,4 +25,10 @@ public class EmployeeDto implements Serializable {
     @NotNull
     @Size(max = 120)
     private String name;
+
+    @Email
+    @Size(max = 120)
+    private String email;
+
+    private Boolean isActive;
 }
