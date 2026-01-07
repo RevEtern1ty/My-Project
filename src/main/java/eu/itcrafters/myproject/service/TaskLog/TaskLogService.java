@@ -2,6 +2,8 @@ package eu.itcrafters.myproject.service.TaskLog;
 
 import eu.itcrafters.myproject.controller.TaskLog.dto.TaskLogCreateRequest;
 import eu.itcrafters.myproject.controller.TaskLog.dto.TaskLogDto;
+import eu.itcrafters.myproject.infrastructure.rest.error.ErrorCode;
+import eu.itcrafters.myproject.infrastructure.rest.exception.DataNotFoundException;
 import eu.itcrafters.myproject.persistence.Employee.Employee;
 import eu.itcrafters.myproject.persistence.Employee.EmployeeRepository;
 import eu.itcrafters.myproject.persistence.Task.Task;
@@ -28,6 +30,8 @@ public class TaskLogService {
 
     @Transactional
     public List<TaskLogDto> getLogsByTaskId(Long taskId) {
+        // Checking existance
+        ensureTaskExists(taskId);
 
         // Fetch all TaskLog entities related to the given Task ID
         List<TaskLog> logs =taskLogRepository.findByTaskId(taskId);
@@ -47,7 +51,8 @@ public class TaskLogService {
 
         // Load Task entity and fail if it does not exist
         Task task = taskRepository.findById(request.getTaskId())
-                .orElseThrow(() -> new IllegalArgumentException("Task not found "+request.getTaskId()));
+                .orElseThrow(() -> new DataNotFoundException(
+                        ErrorCode.TASK_NOT_FOUND.format("id", request.getTaskId())));
 
         TaskLog entity = taskLogMapper.toEntity(request);
         entity.setTask(task);
@@ -56,7 +61,8 @@ public class TaskLogService {
         // If creator employee ID is provided, resolve and assign relation
         if (request.getCreatedByEmployeeId() != null){
             Employee employee = employeeRepository.findById(request.getCreatedByEmployeeId())
-                    .orElseThrow(() ->new IllegalArgumentException("Employee not found "+request.getCreatedByEmployeeId()));
+                    .orElseThrow(() -> new DataNotFoundException(
+                            ErrorCode.EMPLOYEE_NOT_FOUND.format("id", request.getCreatedByEmployeeId())));
 
             entity.setCreatedByEmployee(employee);
         }
@@ -65,6 +71,14 @@ public class TaskLogService {
         return taskLogMapper.toDto(saved);
 
     }
+
+    // Helpers
+    private void ensureTaskExists(Long taskId) {
+        if (!taskRepository.existsById(taskId)) {
+            throw new DataNotFoundException(ErrorCode.TASK_NOT_FOUND.format("id", taskId));
+        }
+    }
+
 
 
 }
