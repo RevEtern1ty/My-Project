@@ -8,5 +8,6 @@ public class ApiError {
     private HttpStatus status;
     private String message;
     private String path;
+    private String errorCode;
 }
 
