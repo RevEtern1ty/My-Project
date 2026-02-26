@@ -18,6 +18,7 @@ The project demonstrates a classic **Controller → Service → Repository** arc
 
 ![ER Diagram](docs/ER-diagramm.jpg)
 
+---
 
 ## 1. Description
 
@@ -38,6 +39,7 @@ The main goals of the project are:
 - handle errors in a centralized way
 - cover business logic with unit tests
 
+---
 
 ## 2. Tech Stack
 
@@ -51,6 +53,7 @@ The main goals of the project are:
 - Mockito
 - Gradle
 
+---
 
 ## 3. Prerequisites
 
@@ -60,107 +63,139 @@ To run the project you need:
 - Gradle 
 - IntelliJ IDEA is recommended but not required
 
+---
 
 ## 4. Getting Started
 
 ### Clone the repository
 
-## git clone <repository-url>
-## cd task-manager
+- Open the IDE
+- On the Welcome screen (or via **File → New → Project from Version Control**), choose **Clone Repository**
+- Select **Repository URL**
+- Make sure **Version control** is set to `Git`
+- Paste the repository URL into the **URL** field
 
---Run the application:
---Using Gradle:
-## ./gradlew bootRun
+```bash
+git clone https://github.com/RevEtern1ty/My-Project.git
+cd task-manager
+```
+Run the application:
+Using Gradle:
 
---Or from IntelliJ IDEA:
---Open the project
--Run MyprojectApplication
+```bash
+./gradlew bootRun
+```
 
--The application will start on:
-## http://localhost:8080
+Or from IntelliJ IDEA:
+Open the project
+Run MyprojectApplication
+
+- The application will start on:
+ http://localhost:8080
 -Swagger UI:
-## http://localhost:8080/swagger-ui/index.html
+ http://localhost:8080/swagger-ui/index.html
+
+---
 
 ## 5. Database Initialization
 
--The project uses HSQLDB as an in-memory database.
--Database initialization is handled automatically on startup using:
+The project uses HSQLDB as an in-memory database.
+Database initialization is handled automatically on startup using:
 
--schema.sql – creates database tables
--data.sql – inserts initial test data
+- schema.sql – creates database tables
+- data.sql – inserts initial test data
 
 
-## Database Model (ER Diagram)
+### Database Model (ER Diagram)
 
 The ER diagram was designed in Vertabelo.
 
 ![ER Diagram](docs/ER-diagramm.jpg)
 
--Both files are located in:
+- Both files are located in:
 
--src/main/resources/
--The database is reset every time the application restarts.
+- src/main/resources/
+- The database is reset every time the application restarts.
+
+---
 
 ## 6. Application Architecture
 
 The project follows a layered architecture:
 
-## Controller layer
+### Controller layer
 
---Handles HTTP requests
---Performs input validation using @Valid
---Works only with DTOs
---Does not contain business logic
+Responsibilities:
+- Handles HTTP requests
+- Performs input validation using @Valid
+- Works only with DTOs
+- Delegates all business logic to Services
 
-## Service layer
+### Service layer
 
---Contains all business logic
---Validates domain rules
---Resolves entity relations
---Throws domain-specific exceptions
+Responsibilities:
+- Contains all business logic
+- Validates domain rules
+- Resolves entity relations
+- Throws domain-specific exceptions
 
-## Repository layer
+### Repository layer
 
---Uses Spring Data JPA
---Works only with entities
---No business logic inside repositories
+Responsibilities:
+- Uses Spring Data JPA
+- Works only with entities
+- No business logic inside repositories
 
-## DTO and Mapping
+### DTO and Mapping
 
-All API communication is done via DTOs
-MapStruct is used for entity ↔ DTO mapping
-Patch updates ignore null values
-Relations are resolved explicitly in services
+Responsibilities:
+- API uses DTOs for request/response contracts
+- MapStruct is used for entity ↔ DTO mapping
+- Patch updates ignore null values
+- Relations are resolved explicitly in services
+
+---
 
 ## 7. Error Handling
 
---Centralized error handling is implemented using @ControllerAdvice.
---Handled cases include:
+Centralized error handling is implemented using @ControllerAdvice.
+Typical handled cases:
 
-## 404 Not Found – entity does not exist
+- 404 Not Found – entity does not exist
+- 400 Bad Request – validation or business rule violations
+- 403 Forbidden – forbidden operations
 
-## 400 Bad Request – validation or business rule violations
+Typical handled cases:
+- Error responses are returned in a unified JSON format using ApiError.
+- To avoid duplicated error messages across services, the project uses a centralized ErrorCode enum with message templates.
 
-## 403 Forbidden – forbidden operations
-
---Error responses are returned in a unified JSON format using ApiError.
---To avoid duplicated error messages across services, the project uses a centralized ErrorCode enum with message templates.
+---
 
 ## 8. Testing
 
 Unit tests are implemented for the Service layer.
 
-## Covered scenarios:
--entity not found cases
--successful create operations
--partial updates 
--relation resolution (Employee / Workstation)
--delete operations
+### Covered scenarios:
 
-## Testing tools:
+- Entity not found cases
+- Successful create operations
+- Partial updates 
+- Relation resolution 
+- Delete operations
+- Validation of business rules 
 
- --JUnit 5,Mockito  
+### Testing tools:
 
--Repositories and mappers are mocked to focus tests on business logic only.
+- JUnit 5,Mockito
+- Repositories and mappers are mocked to focus tests on business logic only.
+
 Run tests:
- ## ./gradlew test
+```bash
+ ./gradlew test
+```
+
+On Windows PowerShell you can also run:
+
+```bash
+.\gradlew.bat test
+```
