@@ -3,26 +3,28 @@ package eu.itcrafters.myproject.infrastructure.db;
 import org.hsqldb.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnProperty(name = "demo.hsql-server.enabled", havingValue = "true")
 public class HsqlServerConfig {
     private static final Logger log = LoggerFactory.getLogger(HsqlServerConfig.class);
 
     /**
-     * This bean starts an HSQLDB Server on port 9001, backed by an in-memory database named "mydb".
-     * IntelliJ can then connect to jdbc:hsqldb:hsql://localhost:9001/mydb.
+     * Gives local database tools access to the same in-memory database as the API.
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Server hsqlServer() {
         Server server = new Server();
-        server.setLogWriter(null);      // suppress console logging from HSQLDB itself
-        server.setSilent(true);         // reduce verbosity
-        server.setDatabaseName(0, "mydb");       // this name must match “mem:mydb”
-        server.setDatabasePath(0, "mem:mydb");   // in-memory mode
-        server.setPort(9001);                   // TCP port for client connections
-        log.info("Starting HSQLDB server on port 9001 (in-memory database 'mydb')");
+        server.setLogWriter(null);
+        server.setSilent(true);
+        server.setDatabaseName(0, "mydb");
+        server.setDatabasePath(0, "mem:mydb");
+        server.setAddress("127.0.0.1");
+        server.setPort(9001);
+        log.info("Starting local HSQLDB server at 127.0.0.1:9001 (in-memory database 'mydb')");
         return server;
     }
 }

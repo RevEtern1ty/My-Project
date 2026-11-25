@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Local HSQLDB runtime files from file-based development sessions
+/localhost.lck
+/localhost.log
+/localhost.properties
+/localhost.script

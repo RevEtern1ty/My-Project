@@ -1,201 +1,52 @@
-# Task Manager
+# Workstation Task API
 
-A Spring Boot application for managing Employees, Tasks, Task Logs and Workstations.  
-The project demonstrates a classic **Controller → Service → Repository** architecture with DTO-based API, validation, error handling and unit tests.
+A Java and Spring Boot demo for assigning work to employees, managing workstations and recording task activity. Try it in Swagger UI using the sample data included with the project.
 
----
+## Run on your computer
 
-## Table of Contents
+1. Install a **Java 21 JDK**. Open a terminal and run `java -version`. It should show version 21.
+2. On GitHub, choose **Code → Download ZIP**, then extract it. Open a terminal in the extracted folder, where `gradlew.bat` and `build.gradle` are visible. If you already use Git, run `git clone https://github.com/RevEtern1ty/My-Project.git` and `cd My-Project` instead.
+3. Run the command for your operating system. The first run needs internet access to download Gradle and the Java dependencies.
 
-1. [Description](#1-description)
-2. [Tech Stack](#2-tech-stack)
-3. [Prerequisites](#3-prerequisites)
-4. [Getting Started](#4-getting-started)
-5. [Database Initialization](#5-database-initialization)
-6. [Application Architecture](#6-application-architecture)
-7. [Error Handling](#7-error-handling)
-8. [Testing](#8-testing)
+**Windows PowerShell**
 
-![ER Diagram](docs/ER-diagramm.jpg)
-
----
-
-## 1. Description
-
-This application implements basic CRUD operations for a simple task management system.
-
-Main domain objects:
-
-- **Employee** – company employees
-- **Workstation** – workplaces where tasks are executed
-- **Task** – work items assigned to employees and workstations
-- **TaskLog** – history of task-related events 
-
-The main goals of the project are:
-
-- demonstrate clean backend architecture
-- separate API layer from persistence
-- use DTOs instead of exposing entities
-- handle errors in a centralized way
-- cover business logic with unit tests
-
----
-
-## 2. Tech Stack
-
-- Java 21
-- Spring Boot
-- Spring Data JPA
-- HSQLDB 
-- MapStruct 
-- Lombok
-- JUnit 5
-- Mockito
-- Gradle
-
----
-
-## 3. Prerequisites
-
-To run the project you need:
-
-- Java JDK 21 installed
-- Gradle 
-- IntelliJ IDEA is recommended but not required
-
----
-
-## 4. Getting Started
-
-### Clone the repository
-
-- Open the IDE
-- On the Welcome screen (or via **File → New → Project from Version Control**), choose **Clone Repository**
-- Select **Repository URL**
-- Make sure **Version control** is set to `Git`
-- Paste the repository URL into the **URL** field
-
-```bash
-git clone https://github.com/RevEtern1ty/My-Project.git
-cd task-manager
+```powershell
+.\gradlew.bat bootRun
 ```
-Run the application:
-Using Gradle:
+
+**macOS or Linux**
 
 ```bash
 ./gradlew bootRun
 ```
 
-Or from IntelliJ IDEA:
-Open the project
-Run MyprojectApplication
+4. Leave the terminal open and visit [Swagger UI](http://127.0.0.1:8080/swagger-ui/index.html). Stop the server with **Ctrl+C** in the terminal.
 
-- The application will start on:
- http://localhost:8080
--Swagger UI:
- http://localhost:8080/swagger-ui/index.html
+## Try an example
 
----
+1. In Swagger UI, open **GET /tasks/all** and choose **Try it out → Execute**. A successful request returns HTTP 200 with the seeded tasks.
+2. Note a task ID in the response. Run **GET /task-logs/task/{taskId}** with that ID to inspect its activity records.
+3. Run **GET /employees/all** or **GET /workstations/all** to see the other sample data.
 
-## 5. Database Initialization
+| URL | What it shows |
+| --- | --- |
+| [Swagger UI](http://127.0.0.1:8080/swagger-ui/index.html) | Interactive API documentation |
+| [Tasks](http://127.0.0.1:8080/tasks/all) | Seeded task list in JSON |
+| [Health](http://127.0.0.1:8080/actuator/health) | Application status |
 
-The project uses HSQLDB as an in-memory database.
-Database initialization is handled automatically on startup using:
+The sample data is loaded into an in-memory HSQLDB database each time the application starts. Changes made while exploring are discarded on restart. The demo listens on your computer only. It is designed for local exploration.
 
-- schema.sql – creates database tables
-- data.sql – inserts initial test data
+## Project layout
 
+- **Controller** exposes the REST endpoints and validates requests. MapStruct maps API DTOs and database entities.
+- **Service** owns business rules and resolves relations between tasks, employees and workstations.
+- **Repository** uses Spring Data JPA with HSQLDB. [Database diagram](docs/ER-diagramm.jpg)
+- **Error handling** maps request validation and service errors to a shared JSON response.
 
-### Database Model (ER Diagram)
+Run the JUnit tests with `./gradlew test` on macOS/Linux or `.\gradlew.bat test` on Windows.
 
-The ER diagram was designed in Vertabelo.
+## Troubleshooting
 
-![ER Diagram](docs/ER-diagramm.jpg)
-
-- Both files are located in:
-
-- src/main/resources/
-- The database is reset every time the application restarts.
-
----
-
-## 6. Application Architecture
-
-The project follows a layered architecture:
-
-### Controller layer
-
-Responsibilities:
-- Handles HTTP requests
-- Performs input validation using @Valid
-- Works only with DTOs
-- Delegates all business logic to Services
-
-### Service layer
-
-Responsibilities:
-- Contains all business logic
-- Validates domain rules
-- Resolves entity relations
-- Throws domain-specific exceptions
-
-### Repository layer
-
-Responsibilities:
-- Uses Spring Data JPA
-- Works only with entities
-- No business logic inside repositories
-
-### DTO and Mapping
-
-Responsibilities:
-- API uses DTOs for request/response contracts
-- MapStruct is used for entity ↔ DTO mapping
-- Patch updates ignore null values
-- Relations are resolved explicitly in services
-
----
-
-## 7. Error Handling
-
-Centralized error handling is implemented using @ControllerAdvice.
-Typical handled cases:
-
-- 404 Not Found – entity does not exist
-- 400 Bad Request – validation or business rule violations
-- 403 Forbidden – forbidden operations
-
-Typical handled cases:
-- Error responses are returned in a unified JSON format using ApiError.
-- To avoid duplicated error messages across services, the project uses a centralized ErrorCode enum with message templates.
-
----
-
-## 8. Testing
-
-Unit tests are implemented for the Service layer.
-
-### Covered scenarios:
-
-- Entity not found cases
-- Successful create operations
-- Partial updates 
-- Relation resolution 
-- Delete operations
-- Validation of business rules 
-
-### Testing tools:
-
-- JUnit 5,Mockito
-- Repositories and mappers are mocked to focus tests on business logic only.
-
-Run tests:
-```bash
- ./gradlew test
-```
-
-On Windows PowerShell you can also run:
-
-```bash
-.\gradlew.bat test
-```
+- **Java 21 not found.** Install a JDK, set `JAVA_HOME` to its folder, then reopen the terminal.
+- **Port 8080 already in use.** Add `--args="--server.port=8081"` after `bootRun` and use port 8081 in the browser.
+- **Inspecting the database in a SQL tool.** Add `--args="--demo.hsql-server.enabled=true"` after `bootRun` and connect to `jdbc:hsqldb:hsql://127.0.0.1:9001/mydb` as `sa` with the empty demo password.
